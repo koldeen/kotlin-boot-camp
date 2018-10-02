@@ -1,4 +1,4 @@
-package io.rybalkinsd.kotlinbootcamp;
+nmpackage io.rybalkinsd.kotlinbootcamp;
 
 public class PointJ {
     private int x;

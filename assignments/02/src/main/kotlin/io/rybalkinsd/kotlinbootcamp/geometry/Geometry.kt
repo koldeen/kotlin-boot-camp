@@ -14,6 +14,9 @@ class Point(x: Int, y: Int) : Collider {
     override fun isColliding(other: Collider): Boolean {
         TODO("not implemented")
     }
+    fun isInside(borde: List<Point>): Boolean {
+        
+    }
 }
 
 /**

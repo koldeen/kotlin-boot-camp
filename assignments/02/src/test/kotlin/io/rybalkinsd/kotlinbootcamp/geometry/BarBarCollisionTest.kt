@@ -29,7 +29,7 @@ class BarBarCollisionTest {
     @Test
     fun `bar is not oriented 2`() {
         val bar1 = Bar(0, 100, 100, 0)
-        val bar2 = Bar(100, 100, 0, 0)
+         val bar2 = Bar(100, 100, 0, 0)
         assertEquals(bar1, bar2)
     }
 
