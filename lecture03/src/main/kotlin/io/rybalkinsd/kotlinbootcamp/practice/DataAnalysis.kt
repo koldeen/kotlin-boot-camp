@@ -20,7 +20,9 @@ sealed class Profile(
  * Task #1
  * Declare classes for all data sources
  */
-class FacebookProfile(id: Long) : Profile(dataSource = DataSource.FACEBOOK, id = id)
+class FacebookProfile(id: Long): Profile(dataSource = DataSource.FACEBOOK, id = id)
+class VkProfile(id: Long): Profile(dataSource = DataSource.VK, id = id)
+class LinkedinProfile(id: Long): Profile(dataSource = DataSource.LINKEDIN, id = id)
 
 /**
  * Task #2
