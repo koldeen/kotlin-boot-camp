@@ -9,8 +9,7 @@ val alphabet = setOf("Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Go
  * A mapping for english characters to phonetic alphabet.
  * [ a -> Alfa, b -> Bravo, ...]
  */
-val association: Map<Char, String>
-        = alphabet.associate {it.toLowerCase()[0] to it}
+val association: Map<Char, String> = alphabet.associate { it.toLowerCase()[0] to it }
 
 /**
  * Extension function for String which encode it according to `association` mapping
@@ -21,15 +20,13 @@ val association: Map<Char, String>
  * "abc".encode() == "AlfaBravoCharlie"
  *
  */
-fun String.encode(): String
-        = this.fold("") {result, x -> result + (association[x.toLowerCase()] ?: x)}
+fun String.encode(): String = this.fold("") { result, x -> result + (association[x.toLowerCase()] ?: x) }
 
 /**
  * A reversed mapping for association
  * [ alpha -> a, bravo -> b, ...]
  */
-val reversedAssociation: Map<String, Char>
-        = alphabet.associate {it to it.toLowerCase()[0]}
+val reversedAssociation: Map<String, Char> = alphabet.associate { it to it.toLowerCase()[0] }
 
 /**
  * Extension function for String which decode it according to `reversedAssociation` mapping
@@ -41,9 +38,9 @@ val reversedAssociation: Map<String, Char>
  * "charliee".decode() == null
  *
  */
-fun String.decode(): String?{
-    var buf =""
-    var result=""
+fun String.decode(): String? {
+    var buf = ""
+    var result = ""
     this.forEach {
         if (association.containsKey(it.toLowerCase())) {
             buf += it
@@ -53,6 +50,6 @@ fun String.decode(): String?{
             result += it
         }
     }
+
     return if (buf.isBlank()) result else null
 }
-
