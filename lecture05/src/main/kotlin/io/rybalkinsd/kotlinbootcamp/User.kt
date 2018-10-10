@@ -7,4 +7,4 @@ class User(val id: Long) {
     override fun toString(): String {
         return "User(id=$id, firstName=$firstName, lastName=$lastName)"
     }
-}
+}  

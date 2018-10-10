@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.http.HttpHeaders
 import java.util.Queue
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -21,9 +19,9 @@ class ChatController {
     val usersOnline: MutableMap<String, String> = ConcurrentHashMap()
 
     @RequestMapping(
-        path = ["login"],
-        method = [RequestMethod.POST],
-        consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
+            path = ["login"],
+            method = [RequestMethod.POST],
+            consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
     )
     fun login(@RequestParam("name") name: String): ResponseEntity<String> = when {
         name.isEmpty() -> ResponseEntity.badRequest().body("Name is too short")
@@ -43,13 +41,12 @@ class ChatController {
      * curl -i localhost:8080/chat/online
      */
     @RequestMapping(
-        path = ["online"],
-        method = [RequestMethod.GET],
-        produces = [MediaType.TEXT_PLAIN_VALUE]
+            path = ["online"],
+            method = [RequestMethod.GET],
+            produces = [MediaType.TEXT_PLAIN_VALUE]
     )
     fun online(): ResponseEntity<String> =
-            ResponseEntity.ok().body(usersOnline.map{ it.value}.joinToString(separator = ", ", prefix = "All users: "))
-
+            ResponseEntity.ok().body(usersOnline.map { it.value }.joinToString(separator = ", ", prefix = "All users: "))
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
@@ -98,6 +95,5 @@ class ChatController {
             produces = [MediaType.TEXT_PLAIN_VALUE]
     )
     fun history(): ResponseEntity<String> =
-            ResponseEntity.ok().body(usersOnline.map{"[${it.key}] ${it.value} \n"}.joinToString())
-
+            ResponseEntity.ok().body(usersOnline.map { "[${it.key}] ${it.value} \n" }.joinToString())
 }

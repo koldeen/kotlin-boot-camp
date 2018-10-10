@@ -8,7 +8,6 @@ import okhttp3.Response
 import okhttp3.Request
 import okhttp3.OkHttpClient
 
-
 object ChatClient {
     // Change to server url
     private const val HOST = "localhost"
@@ -67,10 +66,10 @@ object ChatClient {
      * POST /chat/logout?name=my_name
      */
     fun logout(name: String): EagerResponse =
-        OkHttpClient.Builder().build().newCall(
-                Request.Builder().apply{
-                    url("http://$HOST:$PORT/chat/logout?name=$name")
-                    delete()
-                }.build()
-        ).execute().eager()
+            OkHttpClient.Builder().build().newCall(
+                    Request.Builder().apply {
+                        url("http://$HOST:$PORT/chat/logout?name=$name")
+                        delete()
+                    }.build()
+            ).execute().eager()
 }

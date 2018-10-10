@@ -9,6 +9,7 @@ import org.junit.Test
 
 typealias Client = ChatClient
 
+@Ignore
 class ChatClientTest {
     companion object {
         // Change this to your Last name
