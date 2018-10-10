@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.http.HttpHeaders
 import java.util.Queue
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -19,7 +21,7 @@ class ChatController {
     val usersOnline: MutableMap<String, String> = ConcurrentHashMap()
 
     @RequestMapping(
-        path = ["/login"],
+        path = ["login"],
         method = [RequestMethod.POST],
         consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
     )
@@ -45,20 +47,57 @@ class ChatController {
         method = [RequestMethod.GET],
         produces = [MediaType.TEXT_PLAIN_VALUE]
     )
-    fun online(): ResponseEntity<String> = TODO()
+    fun online(): ResponseEntity<String> =
+            ResponseEntity.ok().body(usersOnline.map{ it.value}.joinToString(separator = ", ", prefix = "All users: "))
+
 
     /**
      * curl -X POST -i localhost:8080/chat/logout -d "name=I_AM_STUPID"
      */
-    // TODO
+    @RequestMapping(
+            path = ["logout"],
+            method = [RequestMethod.DELETE]
+    )
+    fun logout(@RequestParam("name") name: String): ResponseEntity<String> = when {
+        name.isEmpty() -> ResponseEntity.badRequest().body("Name is too short")
+        name.length > 20 -> ResponseEntity.badRequest().body("Name is too long")
+        !(usersOnline.contains(name)) -> ResponseEntity.badRequest().body("Not logged in yet")
+        else -> {
+            usersOnline.remove(name)
+            messages += "[$name] logged out".also { log.info(it) }
+            ResponseEntity.ok().build()
+        }
+    }
 
     /**
      * curl -X POST -i localhost:8080/chat/say -d "name=I_AM_STUPID&msg=Hello everyone in this chat"
      */
-    // TODO
+    @RequestMapping(
+            path = ["say"],
+            method = [RequestMethod.POST],
+            consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE]
+    )
+    fun say(@RequestParam("name") name: String, @RequestParam("msg") msg: String): ResponseEntity<String> = when {
+        name.isEmpty() -> ResponseEntity.badRequest().body("Name is too short")
+        name.length > 20 -> ResponseEntity.badRequest().body("Name is too long")
+        msg.isEmpty() -> ResponseEntity.badRequest().body("Message is too short")
+        msg.length > 1000 -> ResponseEntity.badRequest().body("Messaga is too long")
+        !usersOnline.contains(name) -> ResponseEntity.badRequest().body("Not logged in yet")
+        else -> {
+            messages += "[$name] : $msg".also { log.info(it) }
+            ResponseEntity.ok().build()
+        }
+    }
 
     /**
-     * curl -i localhost:8080/chat/chat
+     * curl -i localhost:8080/chat/history
      */
-    // TODO
+    @RequestMapping(
+            path = ["history"],
+            method = [RequestMethod.GET],
+            produces = [MediaType.TEXT_PLAIN_VALUE]
+    )
+    fun history(): ResponseEntity<String> =
+            ResponseEntity.ok().body(usersOnline.map{"[${it.key}] ${it.value} \n"}.joinToString())
+
 }

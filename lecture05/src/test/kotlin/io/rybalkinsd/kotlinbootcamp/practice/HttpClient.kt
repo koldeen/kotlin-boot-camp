@@ -9,13 +9,12 @@ import org.junit.Test
 
 typealias Client = ChatClient
 
-@Ignore
 class ChatClientTest {
     companion object {
         // Change this to your Last name
-        private const val MY_NAME_IN_CHAT = "I_DID_NOT_CHANGE_DEFAULT_NAME"
+        private const val MY_NAME_IN_CHAT = "None"
         // Change this to any non-swear text
-        private const val MY_MESSAGE_TO_CHAT = "SOMEONE_KILL_ME"
+        private const val MY_MESSAGE_TO_CHAT = "Hello everyone"
         private val log = logger()
     }
 
@@ -47,6 +46,6 @@ class ChatClientTest {
     fun logout() {
         val response = Client.logout(MY_NAME_IN_CHAT)
         println(response)
-        assertTrue(response.code() == 200 || response.code() == 400)
+        assertTrue(response.code == 200 || response.code == 400)
     }
 }
