@@ -1,4 +1,6 @@
+import org.jetbrains.kotlin.com.intellij.openapi.vfs.StandardFileSystems.jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 group = "io.rybalkinsd"
 version = "1.0-SNAPSHOT"
